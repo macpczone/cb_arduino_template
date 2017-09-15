@@ -267,7 +267,7 @@ function FillTargetData(project, target, info)
         if ( PLATFORM == PLATFORM_MSW )
             pb_lss = _T("cmd /c \"avr-objdump -h -S $(TARGET_OUTPUT_FILE) > $(TARGET_OUTPUT_FILE).lss\"");
         else
-            pb_lss = _T("avr-objdump -h -S $(TARGET_OUTPUT_FILE) > $(TARGET_OUTPUT_FILE).lss");
+            pb_lss = _T("avr-objdump -h -S \"$(TARGET_OUTPUT_FILE)\" > \"$(TARGET_OUTPUT_FILE).lss\"");
 
         // avr-size is compiled with patches under winavr to produce a fancy output
         // which displays the percentage of memory used by the application for the
@@ -279,7 +279,7 @@ function FillTargetData(project, target, info)
             pb_avrsize = _T("avr-size \"$(TARGET_OUTPUT_FILE)\"");
 
         // Setup the linker options
-        lo_map = _T("-Wl,-Map=$(TARGET_OUTPUT_FILE).map,--cref");
+        lo_map = _T("\"-Wl,-Map=$(TARGET_OUTPUT_FILE).map,--cref\"");
 
         // Get external memory start address
         lo_extmem = _T("-Wl,--section-start=.data=") + AvrExtMemAddr;
@@ -373,7 +373,7 @@ function FillTargetData(project, target, info)
             if (PLATFORM_MSW == PLATFORM)
                 target.AddCommandsAfterBuild(_T("avrdude -V -C \"$(TARGET_COMPILER_DIR)etc/avrdude.conf\" -p${MCU} -c")
                                              + programmer
-                                             + _T(" -P\\\\.\\${UPLOAD_PORT} -b${UPLOAD_BAUDRATE} -D -Uflash:w:${TARGET_OUTPUT_DIR}${TARGET_OUTPUT_BASENAME}.elf.hex:i"));
+                                             + _T(" -P\\\\.\\${UPLOAD_PORT} -b${UPLOAD_BAUDRATE} -D \"-Uflash:w:${TARGET_OUTPUT_DIR}${TARGET_OUTPUT_BASENAME}.elf.hex:i\""));
             else
             {
                 if (processor.Matches(_T("atmega32u4")))
@@ -383,7 +383,7 @@ function FillTargetData(project, target, info)
                     programmer = _T("avr109");
                 }
                 target.AddCommandsAfterBuild(_T("avrdude -V -C /etc/avrdude.conf -p${MCU} -c")
-                                             + programmer + _T(" -P${UPLOAD_PORT} -b${UPLOAD_BAUDRATE} -D -Uflash:w:${TARGET_OUTPUT_DIR}${TARGET_OUTPUT_BASENAME}.elf.hex:i"));
+                                             + programmer + _T(" -P${UPLOAD_PORT} -b${UPLOAD_BAUDRATE} -D \"-Uflash:w:${TARGET_OUTPUT_DIR}${TARGET_OUTPUT_BASENAME}.elf.hex:i\""));
             }
         }
 
