@@ -39,6 +39,7 @@ AppendTargetInfos(TargetInfos, _T("Arduino Uno"), _T("atmega328p"), _T("standard
 AppendTargetInfos(TargetInfos, _T("Arduino Leonardo"), _T("atmega32u4"), _T("leonardo"), _T("57600"), _T("leonardo"));
 AppendTargetInfos(TargetInfos, _T("Arduino Esplora"), _T("atmega32u4"), _T("leonardo"), _T("57600"), _T("esplora"));
 AppendTargetInfos(TargetInfos, _T("Arduino Micro"), _T("atmega32u4"), _T("micro"), _T("57600"), _T("micro"));
+AppendTargetInfos(TargetInfos, _T("Arduino Pro Micro"), _T("atmega32u4"), _T("promicro"), _T("57600"), _T("promicro"));
 AppendTargetInfos(TargetInfos, _T("Arduino Duemilanove (328)"), _T("atmega328p"), _T("standard"), _T("57600"), _T("duemilanove328"));
 AppendTargetInfos(TargetInfos, _T("Arduino Duemilanove (168)"), _T("atmega168"), _T("standard"), _T("19200"), _T("duemilanove168"));
 AppendTargetInfos(TargetInfos, _T("Arduino Nano (328)"), _T("atmega328p"), _T("eightanaloginputs"), _T("57600"), _T("nano328"));
@@ -307,6 +308,9 @@ function FillTargetData(project, target, info)
             } else if (targetName.Matches(_T("Arduino Micro"))) {
                     target.AddCompilerOption(_T("-DUSB_VID=0x2341"));
                     target.AddCompilerOption(_T("-DUSB_PID=0x803C"));
+            } else if (targetName.Matches(_T("Arduino Pro Micro"))) {
+                    target.AddCompilerOption(_T("-DUSB_VID=0x1B4F"));
+                    target.AddCompilerOption(_T("-DUSB_PID=0x9206"));
             }
         } else if (processor.Matches(_T("atmega644p"))) {
             target.AddCompilerOption(_T("-D__AVR_ATmega644P__"));
